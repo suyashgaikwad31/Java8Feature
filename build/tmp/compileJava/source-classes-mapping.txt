@@ -1,0 +1,7 @@
+com/java8feature/Java8FeatureTest.java
+ com.java8feature.IMathFunction
+ com.java8feature.Java8FeatureTest
+com/java8feature/NumberPlayList.java
+ com.java8feature.NumberPlayList
+ com.java8feature.NumberPlayList$1
+ com.java8feature.NumberPlayList$1MyConsumer
