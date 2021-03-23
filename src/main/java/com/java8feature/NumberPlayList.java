@@ -1,11 +1,13 @@
 package com.java8feature;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class NumberPlayList {
     public static void main(String[] args) {
@@ -50,6 +52,62 @@ public class NumberPlayList {
         myList.forEach(n-> {
             System.out.println("Mth5: ForEach Value of" +n+ "Check For Even" + isEvenFunction.test(n));
         });
+
+        myList.stream().forEach(n ->{
+            System.out.println("Mth5: Stream For Each Value:: " +n);
+        });
+
+        Function<Integer, Double> toDoubleFunction = Integer::doubleValue;
+        myList.forEach(n ->{
+            System.out.println("Mth5: foreach Lambda Double Value::" +toDoubleFunction.apply(n));
+        });
+        myList.stream().map(toDoubleFunction).forEach(System.out::println);
+        List<Double> doubleList = myList.stream()
+                                  .map(toDoubleFunction)
+                                  .collect(Collectors.toList());
+        System.out.println("Printing Double List:" + doubleList);
+
+        Predicate<Integer> IsEvenFunction = n -> n%2 == 0;
+        myList.forEach(n-> {
+            System.out.println("Mth5 For Each Value Of:"+n+ "Check For Even" + IsEvenFunction.test(n));
+        });
+        List<Integer> evenList = myList.stream()
+                                 .filter(IsEvenFunction)
+                                 .collect(Collectors.toList());
+        System.out.println("Printing Even List: " +evenList );
+
+        Integer first = myList.stream().filter(IsEvenFunction)
+                        .peek(n -> System.out.println("Peak Even Number:" +n))
+                        .findFirst()
+                        .orElse(null);
+        System.out.println("Mth8 First Even: " +first);
+
+        Integer min = myList.stream().filter(IsEvenFunction)
+                      .min((n1, n2) -> n1-n2).orElse(null);
+        System.out.println("Mth9 MinEven: " +min);
+
+        Integer max = myList.stream().filter(IsEvenFunction)
+                      .max(Comparator.comparing(Integer::intValue))
+                      .orElse(null);
+        System.out.println("Mth10 MinMax: " +max);
+
+        Integer sum = myList.stream().reduce(0, Integer::sum);
+        long count = myList.stream().count();
+        System.out.println("Mth11 Avg of "+sum+"/"+count+"="+sum/count);
+
+        boolean allEven = myList.stream().allMatch(IsEvenFunction);
+        boolean oneEven = myList.stream().anyMatch(IsEvenFunction);
+        boolean noneMultOfSix = myList.stream().noneMatch(i -> i > 0 && i % 6 == 0);
+        System.out.println("Mth12 AllEven:"+allEven+ "OneEven"+oneEven+ "OnoneMultOfSix"+noneMultOfSix);
+
+        List<Integer> sortedList = myList.stream()
+                                    .sorted((n1, n2) -> n2.compareTo(n1))
+                                    .collect(Collectors.toList());
+        System.out.println("Mth13 SortedList: " +sortedList);
+
+
+
+
 
 
     }
